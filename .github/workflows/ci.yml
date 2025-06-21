@@ -11,6 +11,8 @@ on:
 jobs:
   test:
     runs-on: windows-latest
+    env:
+      GITHUB_ACTIONS: true
 
     steps:
     - name: Checkout Repository
@@ -27,7 +29,12 @@ jobs:
 
     - name: Install Chrome
       run: |
-        choco install googlechrome -y
+        # Скачиваем Chrome напрямую
+        $chromeUrl = "https://dl.google.com/chrome/install/ChromeStandaloneSetup64.exe"
+        $chromeInstaller = "ChromeStandaloneSetup64.exe"
+        Invoke-WebRequest -Uri $chromeUrl -OutFile $chromeInstaller
+        Start-Process -FilePath $chromeInstaller -Args "/silent /install" -Wait
+        Remove-Item $chromeInstaller
 
     - name: Start HTTP server
       run: |
