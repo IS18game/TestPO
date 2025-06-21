@@ -13,12 +13,6 @@ class TestFirstBatch:
         """ID: 001 - Проверка ввода номера карты"""
         driver = bank_page
         
-<<<<<<< HEAD
-        open_ruble_transfer(driver)
-
-        enter_card_number(driver, "1234567890123456")
-        
-=======
         # Открываем интерфейс перевода
         open_ruble_transfer(driver)
         
@@ -26,20 +20,12 @@ class TestFirstBatch:
         enter_card_number(driver, "1234567890123456")
         
         # Проверяем, что поле суммы стало доступно
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         try:
             amount_input = wait_for_element(driver, By.XPATH, "//input[@placeholder='1000']")
             assert amount_input.is_enabled(), "Поле суммы должно быть активно после ввода корректного номера карты"
         except TimeoutException:
             pytest.fail("Поле суммы не появилось после ввода корректного номера карты")
         
-<<<<<<< HEAD
-        enter_card_number(driver, "12345678901234567")
-        
-        card_input = driver.find_element(By.XPATH, "//input[@placeholder='Номер карты' or contains(@class, 'card') or @type='text']")
-        entered_value = card_input.get_attribute("value")
-        
-=======
         # Тест 2: Ввод номера из 17 цифр
         enter_card_number(driver, "12345678901234567")  # 17 цифр
         
@@ -49,34 +35,21 @@ class TestFirstBatch:
         
         # Система может принять номер из 17 цифр (валидация обычно на сервере)
         # Проверяем, что поле суммы всё ещё доступно
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         amount_input = wait_for_element(driver, By.XPATH, "//input[@placeholder='1000']")
         assert amount_input.is_enabled(), "Поле суммы должно остаться активным даже с 17-значным номером"
     
     def test_002_dollar_transfer_limit(self, driver):
         """ID: 002 - Проверка лимитов перевода доллара"""
-<<<<<<< HEAD
-        driver.get("http://localhost:8000/?balance=100&reserved=0")
-        time.sleep(2)
-        
-=======
         # Открываем страницу с балансом $100
         driver.get("http://localhost:8000/?balance=100&reserved=0")
         time.sleep(2)
         
         # Нажимаем на долларовый счет
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         try:
             dollar_account = wait_for_element(driver, By.XPATH, "//*[contains(text(), 'Доллары')]")
             dollar_account.click()
             time.sleep(1)
             
-<<<<<<< HEAD
-            enter_card_number(driver, "1234567890123456")
-            
-            enter_transfer_amount(driver, "1000")
-            
-=======
             # Вводим номер карты
             enter_card_number(driver, "1234567890123456")
             
@@ -84,7 +57,6 @@ class TestFirstBatch:
             enter_transfer_amount(driver, "1000")
             
             # Проверяем появление предупреждения
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
             page_text = driver.page_source.lower()
             assert "недостаточно средств" in page_text or "insufficient" in page_text, "Должно появиться предупреждение о недостатке средств"
             
@@ -98,15 +70,10 @@ class TestFirstBatch:
         open_ruble_transfer(driver)
         enter_card_number(driver, "1234567890123456")
         
-<<<<<<< HEAD
-        enter_transfer_amount(driver, "20000")
-        
-=======
         # Пытаемся перевести 20000₽ (баланс 30000₽, резерв 20001₽, доступно 9999₽)
         enter_transfer_amount(driver, "20000")
         
         # Проверяем появление предупреждения о недостатке средств
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         time.sleep(2)
         page_text = driver.page_source.lower()
         assert "недостаточно средств" in page_text or "невозможен" in page_text, "Должно появиться предупреждение о недостатке средств"
@@ -119,13 +86,6 @@ class TestFirstBatch:
         enter_card_number(driver, "2222222222222222")
         enter_transfer_amount(driver, "5000")
 
-<<<<<<< HEAD
-        debug_button_state(driver, "ПЕРЕД поиском кнопки")
-
-        try:
-            alert_text = click_transfer_button_safely(driver)
-            
-=======
         # Отладка кнопки
         debug_button_state(driver, "ПЕРЕД поиском кнопки")
 
@@ -134,16 +94,12 @@ class TestFirstBatch:
             alert_text = click_transfer_button_safely(driver)
             
             # Проверяем уведомление через alert или page_source
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
             if alert_text:
                 assert "2222222222222222" in alert_text, "В уведомлении должен быть указан номер карты"
                 assert "5000" in alert_text, "В уведомлении должна быть указана сумма"
                 assert "принят банком" in alert_text, "Должно быть уведомление о принятии перевода"
             else:
-<<<<<<< HEAD
-=======
                 # Если alert не было, проверяем page_source
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
                 page_text = driver.page_source
                 assert "2222222222222222" in page_text, "В уведомлении должен быть указан номер карты"
                 assert "5000" in page_text, "В уведомлении должна быть указана сумма"
@@ -154,11 +110,7 @@ class TestFirstBatch:
     
     def test_005_large_balance_transfer(self, driver):
         """ID: 005 - Добавление на баланс новой суммы и проверка перевода"""
-<<<<<<< HEAD
-
-=======
         # Открываем страницу с увеличенным балансом
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         driver.get("http://localhost:8000/?balance=300000&reserved=20001")
         time.sleep(2)
         
@@ -166,21 +118,11 @@ class TestFirstBatch:
         enter_card_number(driver, "2222222222222222")
         enter_transfer_amount(driver, "200000")
         
-<<<<<<< HEAD
-=======
         # Проверяем, что кнопка "Перевести" доступна
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
         try:
             transfer_button = find_transfer_button(driver)
             assert transfer_button.is_enabled(), "Кнопка 'Перевести' должна быть доступна для суммы 200000₽"
             
-<<<<<<< HEAD
-            page_text = driver.page_source
-            assert "20000" in page_text or "комиссия" in page_text.lower(), "Комиссия должна быть рассчитана корректно"
-            
-            alert_text = click_transfer_button_safely(driver)
-            
-=======
             # Проверяем расчет комиссии (10% от 200000 = 20000)
             page_text = driver.page_source
             assert "20000" in page_text or "комиссия" in page_text.lower(), "Комиссия должна быть рассчитана корректно"
@@ -189,7 +131,6 @@ class TestFirstBatch:
             alert_text = click_transfer_button_safely(driver)
             
             # Проверяем уведомление
->>>>>>> 79e9e05d7a167c74263d56f2590ef6bfc940cf0e
             if alert_text:
                 assert "200000" in alert_text and "2222222222222222" in alert_text, "Уведомление должно содержать корректные данные"
             else:
