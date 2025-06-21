@@ -39,7 +39,7 @@ jobs:
     - name: Start HTTP server
       run: |
         python -m http.server 8000 &
-        Start-Sleep -Seconds 5
+        Start-Sleep -Seconds 10
 
     - name: Run Selenium Tests
       run: pytest tests/ -v --tb=short

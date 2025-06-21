@@ -36,7 +36,7 @@ jobs:
     - name: Start HTTP server
       run: |
         python -m http.server 8000 &
-        sleep 5
+        sleep 10
         
     - name: Run Selenium tests
       run: |
