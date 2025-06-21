@@ -23,13 +23,16 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install selenium pytest
-        pip install chromedriver-autoinstaller
+        pip install -r requirements.txt
 
-    - name: Install Chrome and WebDriver
+    - name: Install Chrome
       run: |
         choco install googlechrome -y
-        python -c "import chromedriver_autoinstaller; chromedriver_autoinstaller.install()"
+
+    - name: Start HTTP server
+      run: |
+        python -m http.server 8000 &
+        Start-Sleep -Seconds 5
 
     - name: Run Selenium Tests
-      run: pytest tests/
+      run: pytest tests/ -v --tb=short
